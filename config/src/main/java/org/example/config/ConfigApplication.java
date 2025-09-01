@@ -1,13 +1,13 @@
-package org.example.brotherhood;
+package org.example.config;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BrotherHoodApplication {
+public class ConfigApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(BrotherHoodApplication.class, args);
+        SpringApplication.run(ConfigApplication.class, args);
     }
 
 }

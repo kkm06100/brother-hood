@@ -1,10 +1,10 @@
-package org.example.brotherhood;
+package org.example.gateway;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BrotherHoodApplicationTests {
+class GatewayApplicationTests {
 
     @Test
     void contextLoads() {
