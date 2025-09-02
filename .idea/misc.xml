@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
-    <file type="web" url="file://$PROJECT_DIR$/services/auth" />
-    <file type="web" url="file://$PROJECT_DIR$/services/config" />
-    <file type="web" url="file://$PROJECT_DIR$/services/gateway" />
-    <file type="web" url="file://$PROJECT_DIR$/services/post" />
+    <file type="web" url="file://$PROJECT_DIR$/auth" />
+    <file type="web" url="file://$PROJECT_DIR$/config" />
+    <file type="web" url="file://$PROJECT_DIR$/gateway" />
+    <file type="web" url="file://$PROJECT_DIR$/post" />
+    <file type="web" url="file://$PROJECT_DIR$/search" />
   </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
