@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: config
+  labels:
+    app: config
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: config
+  template:
+    metadata:
+      labels:
+        app: config
+    spec:
+      containers:
+        - name: config
+          image: vmware/config:1.1
+          ports:
+            - containerPort: 8888
+          resources:
+            requests:
+              cpu: "0.2"
+              memory: 300Mi
+            limits:
+              cpu: "1.0"
+              memory: 300Mi
+          readinessProbe:
+            httpGet:
+              port: 8888
+              path: /actuator/health
+            initialDelaySeconds: 60
+            timeoutSeconds: 2
+            periodSeconds: 20
+            failureThreshold: 5
+          livenessProbe:
+            httpGet:
+              port: 8888
+              path: /actuator/info
+            initialDelaySeconds: 60
+            timeoutSeconds: 2
+            periodSeconds: 20
+            failureThreshold: 5
+      serviceAccountName: api-service-account
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: config
+  labels:
+    app: config
+spec:
+  ports:
+    - port: 8888
+      protocol: TCP
+      targetPort: 8888
+  selector:
+    app: config
+  type: LoadBalancer
