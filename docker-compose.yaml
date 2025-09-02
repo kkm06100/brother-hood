@@ -1,0 +1,76 @@
+version: "3.9"
+
+services:
+  kafka:
+    image: apache/kafka:3.9.1
+    container_name: kafka-docker
+    ports:
+      - "9092:9092"
+      - "9093:9093"
+    environment:
+      KAFKA_KRAFT_MODE: "true"
+      KAFKA_BROKER_ID: 1
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-docker:9092
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka-docker:9093"
+      KAFKA_PROCESS_ROLES: "broker,controller"
+      KAFKA_LOG_DIRS: "/var/lib/kafka/data"
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+    networks:
+      appnet:
+        aliases:
+          - kafka-docker
+
+  postgres:
+    image: postgres:13.22
+    container_name: postgres-docker
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypass
+      POSTGRES_DB: mydb
+    ports:
+      - "15432:5432"
+    networks:
+      appnet:
+        aliases:
+          - postgres-docker
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: es-docker
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      appnet:
+        aliases:
+          - es-docker
+    volumes:
+      - es-data:/usr/share/elasticsearch/data
+
+  redis:
+    image: redis:7.2
+    container_name: redis-docker
+    ports:
+      - "6379:6379"
+    networks:
+      appnet:
+        aliases:
+          - redis-docker
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+
+volumes:
+  kafka-data:
+  es-data:
+  redis-data:
+
+networks:
+  appnet:
+    driver: bridge
