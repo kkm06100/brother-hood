@@ -36,6 +36,23 @@ services:
         aliases:
           - postgres-docker
 
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-docker
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypass
+    ports:
+      - "13306:3306"
+    networks:
+      appnet:
+        aliases:
+          - mysql-docker
+    volumes:
+      - mysql-data:/var/lib/mysql
+
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
     container_name: es-docker
@@ -68,6 +85,7 @@ services:
 
 volumes:
   kafka-data:
+  mysql-data:
   es-data:
   redis-data:
 
