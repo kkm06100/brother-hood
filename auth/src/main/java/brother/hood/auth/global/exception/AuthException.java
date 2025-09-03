@@ -4,11 +4,11 @@ import lombok.Getter;
 import brother.hood.auth.global.exception.error.ErrorCodes;
 
 @Getter
-public class StortiesException extends RuntimeException{
+public class AuthException extends RuntimeException{
 
     private final ErrorCodes errorCodes;
 
-    public StortiesException(ErrorCodes errorCodes) {
+    public AuthException(ErrorCodes errorCodes) {
         super(errorCodes.getMessage());
         this.errorCodes = errorCodes;
     }

@@ -26,13 +26,13 @@ public class ExceptionFilter extends OncePerRequestFilter {
     ) throws IOException {
         try {
             filterChain.doFilter(request, response);
-        } catch (StortiesException stortiesException) {
-            errorToJson(stortiesException.getErrorCodes(), response);
+        } catch (AuthException authException) {
+            errorToJson(authException.getErrorCodes(), response);
         }
         catch (Exception e) {
             Throwable cause = e.getCause();
-            if (cause instanceof StortiesException) {
-                errorToJson(((StortiesException) cause).getErrorCodes(), response);
+            if (cause instanceof AuthException) {
+                errorToJson(((AuthException) cause).getErrorCodes(), response);
             } else {
                 log.error(e.getMessage(), e);
                 errorToJson(ErrorCodes.INTERNAL_SERVER_ERROR, response);

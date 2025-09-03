@@ -2,7 +2,7 @@ package brother.hood.auth.global.exception.error;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import brother.hood.auth.global.exception.StortiesException;
+import brother.hood.auth.global.exception.AuthException;
 
 @Getter
 @AllArgsConstructor
@@ -24,7 +24,7 @@ public enum ErrorCodes {
 
     private final int sequence;
 
-    public StortiesException throwException() {
-        return new StortiesException(this);
+    public AuthException throwException() {
+        return new AuthException(this);
     }
 }
