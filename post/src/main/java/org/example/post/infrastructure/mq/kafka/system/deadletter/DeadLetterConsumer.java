@@ -1,8 +1,8 @@
 package org.example.post.infrastructure.mq.kafka.system.deadletter;
 
+import brother.hood.sharedlibrary.kafka.KafkaEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.post.infrastructure.mq.kafka.dto.KafkaEvent;
 import org.example.post.infrastructure.mq.kafka.util.JsonSerializer;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;

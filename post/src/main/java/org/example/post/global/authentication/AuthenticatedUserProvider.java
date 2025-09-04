@@ -1,8 +1,8 @@
 package org.example.post.global.authentication;
 
 import lombok.RequiredArgsConstructor;
-import org.example.post.infrastructure.client.grpc.user.AuthGrpcClient;
-import org.example.post.infrastructure.client.grpc.user.dto.AuthenticatedUser;
+import org.example.post.infrastructure.client.grpc.auth.AuthGrpcClient;
+import org.example.post.infrastructure.client.grpc.auth.dto.AuthenticatedUser;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 

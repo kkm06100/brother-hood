@@ -1,9 +1,9 @@
 package org.example.post.infrastructure.mq.kafka.event.post.create;
 
+import brother.hood.sharedlibrary.kafka.KafkaEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.post.application.event.CreatePostEvent;
-import org.example.post.infrastructure.mq.kafka.dto.KafkaEvent;
 import org.example.post.infrastructure.mq.kafka.system.retry.KafkaRetryProducer;
 import org.example.post.infrastructure.mq.kafka.util.JsonSerializer;
 import org.example.post.infrastructure.search.domain.post.document.PostDocument;

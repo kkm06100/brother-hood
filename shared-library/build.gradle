@@ -1,0 +1,65 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id "com.google.protobuf" version "0.9.4"
+}
+
+group = 'org.example'
+version = '0.0.1'
+description = 'shared-library'
+
+publishing {
+    publications {
+        create("mavenJava", MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly "org.projectlombok:lombok:1.18.30"
+    annotationProcessor "org.projectlombok:lombok:1.18.30"
+
+    // gRPC 관련
+    implementation "io.grpc:grpc-netty-shaded:1.63.0"
+    implementation "io.grpc:grpc-protobuf:1.63.0"
+    implementation "io.grpc:grpc-stub:1.63.0"
+
+    // Java 9 이상에서 javax.annotation.Generated 문제 해결
+    compileOnly "javax.annotation:javax.annotation-api:1.3.2"
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.25.1"
+    }
+
+    plugins {
+        grpc {
+            artifact = "io.grpc:protoc-gen-grpc-java:1.63.0"
+        }
+    }
+
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {}
+        }
+    }
+}

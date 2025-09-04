@@ -1,14 +1,14 @@
-package org.example.post.infrastructure.client.grpc.user;
+package org.example.post.infrastructure.client.grpc.auth;
 
+import brotherhood.auth.grpc.AuthRequest;
+import brotherhood.auth.grpc.AuthServiceGrpc;
 import io.grpc.Channel;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.example.post.global.exception.error.ErrorCodes;
-import org.example.post.infrastructure.client.grpc.user.dto.AuthenticatedUser;
+import org.example.post.infrastructure.client.grpc.auth.dto.AuthenticatedUser;
 import org.springframework.stereotype.Component;
-import storties.auth.grpc.AuthRequest;
-import storties.auth.grpc.AuthServiceGrpc;
 
 @Component
 public class AuthGrpcClient {

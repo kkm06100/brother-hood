@@ -2,7 +2,6 @@ package org.example.post.infrastructure.mq.kafka.event.post.delete;
 
 import lombok.RequiredArgsConstructor;
 import org.example.post.application.event.DeletePostEvent;
-import org.example.post.infrastructure.mq.kafka.dto.KafkaEvent;
 import org.example.post.infrastructure.mq.kafka.util.JsonSerializer;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;

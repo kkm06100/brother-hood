@@ -1,7 +1,7 @@
-package org.example.post.infrastructure.client.grpc.user.dto;
+package org.example.post.infrastructure.client.grpc.auth.dto;
 
+import brotherhood.auth.grpc.AuthResponse;
 import lombok.Builder;
-import storties.auth.grpc.AuthResponse;
 
 @Builder
 public record AuthenticatedUser(Long userId, String email, String role) {

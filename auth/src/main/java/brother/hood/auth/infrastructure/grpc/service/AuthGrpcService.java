@@ -2,7 +2,6 @@ package brother.hood.auth.infrastructure.grpc.service;
 
 import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
-import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;

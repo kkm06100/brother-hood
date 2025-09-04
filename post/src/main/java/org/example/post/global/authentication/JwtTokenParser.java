@@ -2,6 +2,7 @@ package org.example.post.global.authentication;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -16,11 +17,11 @@ import java.util.List;
 
 @Slf4j
 @Component
-public class JwtParser {
+public class JwtTokenParser {
 
-    private final io.jsonwebtoken.JwtParser jwtParser;
+    private final JwtParser jwtParser;
 
-    public JwtParser(JwtProperties jwtProperties) {
+    public JwtTokenParser(JwtProperties jwtProperties) {
         SecretKey key = Keys.hmacShaKeyFor(jwtProperties.SECRET.getBytes());
         this.jwtParser = Jwts.parserBuilder()
             .setSigningKey(key)

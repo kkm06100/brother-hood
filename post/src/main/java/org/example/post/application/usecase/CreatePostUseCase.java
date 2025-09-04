@@ -6,7 +6,7 @@ import org.example.post.application.event.CreatePostEvent;
 import org.example.post.common.annotations.UseCase;
 import org.example.post.infrastructure.mq.kafka.event.post.create.CreatePostProducer;
 import org.example.post.global.authentication.AuthenticatedUserProvider;
-import org.example.post.infrastructure.client.grpc.user.dto.AuthenticatedUser;
+import org.example.post.infrastructure.client.grpc.auth.dto.AuthenticatedUser;
 import org.example.post.domain.post.CommandPostRepository;
 import org.example.post.domain.post.model.PostEntity;
 import org.example.post.application.usecase.dto.request.CreatePostRequest;

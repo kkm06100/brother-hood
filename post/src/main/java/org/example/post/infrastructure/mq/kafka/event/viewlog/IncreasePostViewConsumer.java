@@ -4,7 +4,6 @@ import java.time.Duration;
 import lombok.RequiredArgsConstructor;
 import org.example.post.application.event.IncreasePostViewEvent;
 import org.example.post.domain.post.CommandPostRepository;
-import org.example.post.infrastructure.mq.kafka.dto.KafkaEvent;
 import org.example.post.infrastructure.mq.kafka.system.retry.KafkaRetryProducer;
 import org.example.post.infrastructure.mq.kafka.util.JsonSerializer;
 import org.springframework.data.redis.core.RedisTemplate;

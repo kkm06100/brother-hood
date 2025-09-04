@@ -7,7 +7,7 @@ import org.example.post.common.annotations.UseCase;
 import org.example.post.infrastructure.mq.kafka.event.post.delete.DeletePostProducer;
 import org.example.post.global.authentication.AuthenticatedUserProvider;
 import org.example.post.global.exception.error.ErrorCodes;
-import org.example.post.infrastructure.client.grpc.user.dto.AuthenticatedUser;
+import org.example.post.infrastructure.client.grpc.auth.dto.AuthenticatedUser;
 import org.example.post.domain.post.CommandPostRepository;
 import org.example.post.domain.post.QueryPostRepository;
 import org.example.post.domain.post.model.PostEntity;

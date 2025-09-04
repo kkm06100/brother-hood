@@ -1,10 +1,10 @@
 package org.example.post.infrastructure.mq.kafka.event.like.increase;
 
+import brother.hood.sharedlibrary.kafka.KafkaEvent;
 import lombok.RequiredArgsConstructor;
 import org.example.post.application.event.IncreasePostLikeEvent;
 import org.example.post.domain.post.CommandPostRepository;
 import org.example.post.domain.post.QueryPostRepository;
-import org.example.post.infrastructure.mq.kafka.dto.KafkaEvent;
 import org.example.post.infrastructure.mq.kafka.system.retry.KafkaRetryProducer;
 import org.example.post.infrastructure.mq.kafka.util.JsonSerializer;
 import org.springframework.data.redis.core.RedisTemplate;

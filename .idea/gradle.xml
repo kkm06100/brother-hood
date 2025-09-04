@@ -43,6 +43,14 @@
           </set>
         </option>
       </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/shared-library" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/shared-library" />
+          </set>
+        </option>
+      </GradleProjectSettings>
     </option>
   </component>
 </project>
