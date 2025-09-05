@@ -1,5 +1,6 @@
 package org.example.post.infrastructure.mq.kafka.event.viewlog;
 
+import brother.hood.sharedlibrary.kafka.KafkaEvent;
 import lombok.RequiredArgsConstructor;
 import org.example.post.application.event.IncreasePostViewEvent;
 import org.example.post.infrastructure.mq.kafka.util.JsonSerializer;

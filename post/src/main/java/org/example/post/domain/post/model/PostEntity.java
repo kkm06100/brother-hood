@@ -46,7 +46,7 @@ public class PostEntity {
     @CollectionTable(name = "post_tags", joinColumns = @JoinColumn(name = "post_id"))
     @Column(name = "tag")
     @BatchSize(size = 100)
-    private List<String> tags = new ArrayList<>();
+    private List<String> tags;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

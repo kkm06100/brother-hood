@@ -20,9 +20,12 @@ import java.util.List;
 public class JwtTokenParser {
 
     private final JwtParser jwtParser;
+    public static final String ROLE = "role";
+    public static final String TOKEN_TYPE = "tokenType";
+    public static final String ACCESS_TOKEN = "ACCESS_TOKEN";
 
     public JwtTokenParser(JwtProperties jwtProperties) {
-        SecretKey key = Keys.hmacShaKeyFor(jwtProperties.SECRET.getBytes());
+        SecretKey key = Keys.hmacShaKeyFor(jwtProperties.secret().getBytes());
         this.jwtParser = Jwts.parserBuilder()
             .setSigningKey(key)
             .setAllowedClockSkewSeconds(60)
@@ -42,7 +45,7 @@ public class JwtTokenParser {
     }
 
     public String getRoleByAccessToken(String accessToken) {
-        return getClaims(accessToken).get(JwtProperties.ROLE, String.class);
+        return getClaims(accessToken).get(ROLE, String.class);
     }
 
     public Long getId(String accessToken) {
@@ -60,8 +63,8 @@ public class JwtTokenParser {
     public void validateAccessToken(String accessToken) {
         Claims claims = getClaims(accessToken);
 
-        if (!JwtProperties.ACCESS_TOKEN.equals(
-            claims.get(JwtProperties.TOKEN_TYPE, String.class))) {
+        if (!ACCESS_TOKEN.equals(
+            claims.get(TOKEN_TYPE, String.class))) {
             throw ErrorCodes.INVALID_TOKEN.throwException();
         }
     }
