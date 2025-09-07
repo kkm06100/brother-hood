@@ -36,10 +36,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
 
     // postgresql
-    runtimeOnly 'org.postgresql:postgresql'
-    implementation("com.vladmihalcea:hibernate-types-60:2.21.1") // Hibernate 6 버전용
-
-
+    implementation 'org.postgresql:postgresql:42.7.3'
 
     // QClass 생성용 annotation processor
     implementation "com.querydsl:querydsl-jpa:5.0.0:jakarta"
