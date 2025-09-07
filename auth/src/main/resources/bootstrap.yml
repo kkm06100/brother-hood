@@ -1,0 +1,12 @@
+spring:
+  config:
+    import:
+      - configserver:http://localhost:8888
+  application:
+    name: auth-service
+  cloud:
+    config:
+      fail-fast: true  # Config Server 연결 실패시 애플리케이션 시작 중단
+      retry:
+        initial-interval: 1000
+        max-attempts: 6

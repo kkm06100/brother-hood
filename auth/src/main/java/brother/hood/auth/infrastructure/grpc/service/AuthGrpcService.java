@@ -1,5 +1,8 @@
 package brother.hood.auth.infrastructure.grpc.service;
 
+import brotherhood.auth.grpc.AuthRequest;
+import brotherhood.auth.grpc.AuthResponse;
+import brotherhood.auth.grpc.AuthServiceGrpc;
 import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import java.util.Optional;
@@ -7,9 +10,6 @@ import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
 import brother.hood.auth.persistence.User;
 import brother.hood.auth.persistence.repository.UserJpaRepository;
-import storties.auth.grpc.AuthRequest;
-import storties.auth.grpc.AuthResponse;
-import storties.auth.grpc.AuthServiceGrpc;
 
 
 @GrpcService
