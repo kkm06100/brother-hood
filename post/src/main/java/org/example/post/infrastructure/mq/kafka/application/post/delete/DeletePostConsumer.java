@@ -1,4 +1,4 @@
-package org.example.post.infrastructure.mq.kafka.event.post.delete;
+package org.example.post.infrastructure.mq.kafka.application.post.delete;
 
 import brother.hood.sharedlibrary.kafka.KafkaEvent;
 import java.util.Optional;

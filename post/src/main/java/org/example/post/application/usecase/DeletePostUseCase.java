@@ -4,7 +4,7 @@ import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.example.post.application.event.DeletePostEvent;
 import org.example.post.common.annotations.UseCase;
-import org.example.post.infrastructure.mq.kafka.event.post.delete.DeletePostProducer;
+import org.example.post.infrastructure.mq.kafka.application.post.delete.DeletePostProducer;
 import org.example.post.global.authentication.AuthenticatedUserProvider;
 import org.example.post.global.exception.error.ErrorCodes;
 import org.example.post.infrastructure.client.grpc.auth.dto.AuthenticatedUser;

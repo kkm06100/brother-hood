@@ -33,8 +33,6 @@ public class DeadLetterConsumer {
                 event.getOriginalTopic(),
                 event.getLastErrorMessage());
 
-            // todo DB 저장 및 알림 발송 기능
-
             ack.acknowledge();
         } catch (Exception e) {
             log.error("Failed to process DLQ message: {}", e.getMessage());

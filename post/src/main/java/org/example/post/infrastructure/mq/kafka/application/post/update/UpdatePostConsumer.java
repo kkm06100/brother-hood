@@ -1,27 +1,31 @@
-package org.example.post.infrastructure.mq.kafka.event.post.create;
+package org.example.post.infrastructure.mq.kafka.application.post.update;
 
 import brother.hood.sharedlibrary.kafka.KafkaEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.post.application.event.CreatePostEvent;
+import org.example.post.application.event.UpdatePostEvent;
 import org.example.post.infrastructure.mq.kafka.system.retry.KafkaRetryProducer;
 import org.example.post.infrastructure.mq.kafka.util.JsonSerializer;
 import org.example.post.infrastructure.search.domain.post.document.PostDocument;
 import org.example.post.infrastructure.search.domain.post.repository.PostSearchRepository;
+import org.example.post.global.exception.error.ErrorCodes;
 import org.example.post.infrastructure.client.rest.VectorRestClient;
+import org.example.post.infrastructure.mq.kafka.properties.KafkaProperties;
+import org.example.post.infrastructure.search.support.ESPostUpdateUseCase;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
 import static org.example.post.infrastructure.mq.kafka.properties.KafkaProperties.CONTAINER_FACTORY;
 import static org.example.post.infrastructure.mq.kafka.properties.KafkaProperties.GROUP_ID;
-import static org.example.post.infrastructure.mq.kafka.properties.KafkaTopicProperties.CREATE_TOPIC;
+import static org.example.post.infrastructure.mq.kafka.properties.KafkaTopicProperties.UPDATE_TOPIC;
 
-// todo outbox 적용
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class CreatePostConsumer {
+public class UpdatePostConsumer {
+
+    private final ESPostUpdateUseCase esPostUpdateUseCase;
 
     private final PostSearchRepository postSearchRepository;
 
@@ -32,27 +36,27 @@ public class CreatePostConsumer {
     private final KafkaRetryProducer kafkaRetryProducer;
 
     @KafkaListener(
-        topics = CREATE_TOPIC,
+        topics = UPDATE_TOPIC,
         groupId = GROUP_ID,
         containerFactory = CONTAINER_FACTORY
     )
     public void consume(KafkaEvent kafkaEvent, Acknowledgment ack) {
         try {
-            CreatePostEvent event = (CreatePostEvent) jsonSerializer.fromJson(kafkaEvent.getPayload(), kafkaEvent.getEventClass());
+            String payload = kafkaEvent.getPayload();
+            UpdatePostEvent event = jsonSerializer.fromJson(payload, UpdatePostEvent.class);
 
-            float[] vector = vectorRestClient.generateVector(event.getTitle() + event.getContent());
+            PostDocument postDocument = postSearchRepository.findById(event.getId())
+                .orElseThrow(ErrorCodes.POST_NOT_FOUND::throwException);
 
-            postSearchRepository.save(PostDocument.builder()
-                .id(event.getId())
-                .title(event.getTitle())
-                .content(event.getContent())
-                .userId(event.getUserId())
-                .createdAt(event.getCreatedAt())
-                .updatedAt(event.getUpdatedAt())
-                .tags(event.getTags())
-                .isPublished(event.getIsPublished())
-                .vector(vector)
-                .build());
+            String documentId = String.valueOf(postDocument.getId());
+
+            // title or content 변경될 시 벡터 변경
+            if(!event.getTitle().equals(postDocument.getTitle()) || !event.getContent().equals(postDocument.getContent())) {
+                float[] vector = vectorRestClient.generateVector(event.getTitle() + event.getContent());
+                esPostUpdateUseCase.updateVector(KafkaProperties.INDEX_NAME, documentId, vector);
+            }
+
+            esPostUpdateUseCase.updateChangedFields(KafkaProperties.INDEX_NAME, documentId, postDocument, event);
 
             ack.acknowledge();
         } catch (Exception e) {

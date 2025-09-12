@@ -1,31 +1,30 @@
-package org.example.post.infrastructure.mq.kafka.event.post.update;
+package org.example.post.infrastructure.mq.kafka.application.viewlog;
 
 import brother.hood.sharedlibrary.kafka.KafkaEvent;
 import lombok.RequiredArgsConstructor;
-import org.example.post.application.event.UpdatePostEvent;
+import org.example.post.application.event.IncreasePostViewEvent;
 import org.example.post.infrastructure.mq.kafka.util.JsonSerializer;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
-import static org.example.post.infrastructure.mq.kafka.properties.KafkaTopicProperties.UPDATE_TOPIC;
+import static org.example.post.infrastructure.mq.kafka.properties.KafkaTopicProperties.INCREASE_VIEW_TOPIC;
 
 @RequiredArgsConstructor
 @Component
-public class UpdatePostProducer {
+public class IncreasePostViewProducer {
 
     private final KafkaTemplate<String, KafkaEvent> kafkaTemplate;
 
     private final JsonSerializer jsonSerializer;
 
-
-    public void publish(UpdatePostEvent event) {
+    public void publish(IncreasePostViewEvent event) {
         KafkaEvent kafkaEvent = KafkaEvent.builder()
-            .topic(UPDATE_TOPIC)
-            .eventClass(UpdatePostEvent.class)
+            .topic(INCREASE_VIEW_TOPIC)
+            .eventClass(IncreasePostViewEvent.class)
             .payload(jsonSerializer.toJson(event))
             .retryCount(0)
             .build();
 
-        kafkaTemplate.send(UPDATE_TOPIC, String.valueOf(event.getId()), kafkaEvent);
+        kafkaTemplate.send(INCREASE_VIEW_TOPIC, kafkaEvent);
     }
 }

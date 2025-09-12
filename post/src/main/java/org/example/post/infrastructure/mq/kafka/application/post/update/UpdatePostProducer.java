@@ -1,30 +1,31 @@
-package org.example.post.infrastructure.mq.kafka.event.post.delete;
+package org.example.post.infrastructure.mq.kafka.application.post.update;
 
 import brother.hood.sharedlibrary.kafka.KafkaEvent;
 import lombok.RequiredArgsConstructor;
-import org.example.post.application.event.DeletePostEvent;
+import org.example.post.application.event.UpdatePostEvent;
 import org.example.post.infrastructure.mq.kafka.util.JsonSerializer;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
-import static org.example.post.infrastructure.mq.kafka.properties.KafkaTopicProperties.DELETE_TOPIC;
+import static org.example.post.infrastructure.mq.kafka.properties.KafkaTopicProperties.UPDATE_TOPIC;
 
 @RequiredArgsConstructor
 @Component
-public class DeletePostProducer {
+public class UpdatePostProducer {
 
     private final KafkaTemplate<String, KafkaEvent> kafkaTemplate;
 
     private final JsonSerializer jsonSerializer;
 
-    public void publish(DeletePostEvent event) {
+
+    public void publish(UpdatePostEvent event) {
         KafkaEvent kafkaEvent = KafkaEvent.builder()
-            .topic(DELETE_TOPIC)
-            .eventClass(DeletePostEvent.class)
+            .topic(UPDATE_TOPIC)
+            .eventClass(UpdatePostEvent.class)
             .payload(jsonSerializer.toJson(event))
             .retryCount(0)
             .build();
 
-        kafkaTemplate.send(DELETE_TOPIC, kafkaEvent);
+        kafkaTemplate.send(UPDATE_TOPIC, String.valueOf(event.getId()), kafkaEvent);
     }
 }

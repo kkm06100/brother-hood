@@ -1,10 +1,11 @@
-package org.example.post.infrastructure.mq.kafka.event.like.increase;
+package org.example.post.infrastructure.mq.kafka.application.like.decrease;
 
 import brother.hood.sharedlibrary.kafka.KafkaEvent;
 import lombok.RequiredArgsConstructor;
-import org.example.post.application.event.IncreasePostLikeEvent;
+import org.example.post.application.event.DecreasePostLikeEvent;
 import org.example.post.domain.post.CommandPostRepository;
 import org.example.post.domain.post.QueryPostRepository;
+import org.example.post.domain.post.model.PostLikeEntity;
 import org.example.post.infrastructure.mq.kafka.system.retry.KafkaRetryProducer;
 import org.example.post.infrastructure.mq.kafka.util.JsonSerializer;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -14,44 +15,43 @@ import org.springframework.stereotype.Component;
 
 import static org.example.post.infrastructure.mq.kafka.properties.KafkaProperties.CONTAINER_FACTORY;
 import static org.example.post.infrastructure.mq.kafka.properties.KafkaProperties.GROUP_ID;
-import static org.example.post.infrastructure.mq.kafka.properties.KafkaTopicProperties.INCREASE_LIKE_TOPIC;
+import static org.example.post.infrastructure.mq.kafka.properties.KafkaTopicProperties.DECREASE_LIKE_TOPIC;
 
 @Component
 @RequiredArgsConstructor
-public class IncreasePostLikeConsumer {
+public class DecreasePostLikeConsumer {
 
     private final RedisTemplate<String, String> redisTemplate;
 
-    private final QueryPostRepository queryPostRepository;
-
     private final CommandPostRepository commandPostRepository;
+
+    private final QueryPostRepository queryPostRepository;
 
     private final JsonSerializer jsonSerializer;
 
     private final KafkaRetryProducer kafkaRetryProducer;
 
     @KafkaListener(
-        topics = INCREASE_LIKE_TOPIC,
+        topics = DECREASE_LIKE_TOPIC,
         groupId = GROUP_ID,
         containerFactory = CONTAINER_FACTORY
     )
     public void consume(KafkaEvent kafkaEvent, Acknowledgment ack) {
         try {
-            String payload = kafkaEvent.getPayload();
-            IncreasePostLikeEvent event = jsonSerializer.fromJson(payload, IncreasePostLikeEvent.class);
+            DecreasePostLikeEvent event = jsonSerializer.fromJson(kafkaEvent.getPayload(), DecreasePostLikeEvent.class);
 
             String likeCountKey = "post:" + event.getPostId() + ":likes";
-
-            boolean isFirst = (queryPostRepository
-                .queryLikeByPostIdAndUserId(event.getPostId(), event.getUserId()) == null);
-
-            if (isFirst) {
-                commandPostRepository.savePostLike(event.getPostId(), event.getUserId());
-                redisTemplate.opsForValue().increment(likeCountKey);
+            PostLikeEntity postLike = queryPostRepository.queryLikeByPostIdAndUserId(event.getPostId(), event.getUserId());
+            if (postLike == null) {
+                ack.acknowledge();
+                return;
             }
 
+            redisTemplate.opsForValue().decrement(likeCountKey);
+            commandPostRepository.deleteLikeById(postLike.getId());
+
             ack.acknowledge();
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             kafkaEvent.setErrorMessage(e.getMessage());
             kafkaRetryProducer.retryPublish(kafkaEvent);
 

@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.post.application.event.IncreasePostLikeEvent;
 import org.example.post.common.annotations.UseCase;
 import org.example.post.global.authentication.AuthenticatedUserProvider;
-import org.example.post.infrastructure.mq.kafka.event.like.increase.IncreasePostLikeProducer;
+import org.example.post.infrastructure.mq.kafka.application.like.increase.IncreasePostLikeProducer;
 
 @UseCase
 @RequiredArgsConstructor

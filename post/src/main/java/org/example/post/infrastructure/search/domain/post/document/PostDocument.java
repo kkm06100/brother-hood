@@ -61,4 +61,10 @@ public class PostDocument {
 
     @Field(type = FieldType.Dense_Vector, dims = 300)
     private float[] vector;
+
+    @Field(type = FieldType.Long)
+    private long viewCount;
+
+    @Field(type = FieldType.Long)
+    private long likeCount;
 }

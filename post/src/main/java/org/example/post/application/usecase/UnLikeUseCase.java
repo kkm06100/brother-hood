@@ -5,7 +5,7 @@ import org.example.post.application.event.DecreasePostLikeEvent;
 import org.example.post.common.annotations.UseCase;
 import org.example.post.domain.post.QueryPostRepository;
 import org.example.post.global.authentication.AuthenticatedUserProvider;
-import org.example.post.infrastructure.mq.kafka.event.like.decrease.DecreasePostLikeProducer;
+import org.example.post.infrastructure.mq.kafka.application.like.decrease.DecreasePostLikeProducer;
 
 @UseCase
 @RequiredArgsConstructor

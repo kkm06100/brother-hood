@@ -1,4 +1,4 @@
-package org.example.post.presentation;
+package org.example.post;
 
 import lombok.RequiredArgsConstructor;
 import org.example.post.application.usecase.AddLikeUseCase;
@@ -43,49 +43,42 @@ public class PostController {
 
     private final UpdatePostUseCase updatePostUseCase;
 
-    // 게시물 단건 조회 (조회수 증가 포함)
     @GetMapping("/{post_id}")
     @ResponseStatus(code = HttpStatus.OK)
     public PostDetailResponse getPost(@PathVariable("post_id") Long postId) {
         return queryPostUseCase.execute(postId);
     }
 
-    // 게시물 목록 조회 (페이징)
     @GetMapping
     @ResponseStatus(code = HttpStatus.OK)
     public PostsResponse getPosts(@RequestParam(defaultValue = "0") int page) {
         return queryPostsUseCase.execute(page);
     }
 
-    // 게시물 생성
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public void createPost(@RequestBody CreatePostRequest request) {
         createPostUsecase.execute(request);
     }
 
-    // 게시물 수정
     @PatchMapping("/{postId}")
     @ResponseStatus(code = HttpStatus.OK)
     public void updatePost(@PathVariable Long postId, @RequestBody UpdatePostRequest request) {
         updatePostUseCase.execute(postId, request);
     }
 
-    // 게시물 삭제
     @DeleteMapping("/{postId}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void deletePost(@PathVariable Long postId) {
         deletePostUseCase.execute(postId);
     }
 
-    // 게시물 좋아요 추가
     @PostMapping("/{postId}/like")
     @ResponseStatus(code = HttpStatus.CREATED)
     public void likePost(@PathVariable Long postId) {
         addLikeUsecase.execute(postId);
     }
 
-    // 게시물 좋아요 취소
     @DeleteMapping("/{postId}/like")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void unlikePost(@PathVariable Long postId) {

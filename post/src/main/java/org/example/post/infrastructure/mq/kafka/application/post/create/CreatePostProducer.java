@@ -1,30 +1,30 @@
-package org.example.post.infrastructure.mq.kafka.event.like.decrease;
+package org.example.post.infrastructure.mq.kafka.application.post.create;
 
 import brother.hood.sharedlibrary.kafka.KafkaEvent;
 import lombok.RequiredArgsConstructor;
-import org.example.post.application.event.DecreasePostLikeEvent;
+import org.example.post.application.event.CreatePostEvent;
 import org.example.post.infrastructure.mq.kafka.util.JsonSerializer;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
-import static org.example.post.infrastructure.mq.kafka.properties.KafkaTopicProperties.DECREASE_LIKE_TOPIC;
+import static org.example.post.infrastructure.mq.kafka.properties.KafkaTopicProperties.CREATE_TOPIC;
 
-@Component
 @RequiredArgsConstructor
-public class DecreasePostLikeProducer {
+@Component
+public class CreatePostProducer {
 
     private final KafkaTemplate<String, KafkaEvent> kafkaTemplate;
 
     private final JsonSerializer jsonSerializer;
 
-    public void publish(DecreasePostLikeEvent event) {
+    public void publish(CreatePostEvent event) {
         KafkaEvent kafkaEvent = KafkaEvent.builder()
-            .topic(DECREASE_LIKE_TOPIC)
-            .eventClass(DecreasePostLikeEvent.class)
+            .topic(CREATE_TOPIC)
+            .eventClass(CreatePostEvent.class)
             .payload(jsonSerializer.toJson(event))
             .retryCount(0)
             .build();
 
-        kafkaTemplate.send(DECREASE_LIKE_TOPIC, kafkaEvent);
+        kafkaTemplate.send(CREATE_TOPIC, kafkaEvent);
     }
 }

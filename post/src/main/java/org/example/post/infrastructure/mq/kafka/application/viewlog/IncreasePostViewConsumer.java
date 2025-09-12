@@ -1,4 +1,4 @@
-package org.example.post.infrastructure.mq.kafka.event.viewlog;
+package org.example.post.infrastructure.mq.kafka.application.viewlog;
 
 import brother.hood.sharedlibrary.kafka.KafkaEvent;
 import java.time.Duration;
@@ -49,7 +49,6 @@ public class IncreasePostViewConsumer {
 
             if (Boolean.TRUE.equals(isFirstInRedis)) {
                 redisTemplate.opsForValue().increment(viewCountKey);
-                commandPostRepository.savePostViewLog(event.getPostId(), event.getUserId());
             }
             ack.acknowledge();
         } catch (RuntimeException e) {

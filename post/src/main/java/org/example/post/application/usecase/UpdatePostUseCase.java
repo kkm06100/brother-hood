@@ -10,7 +10,7 @@ import org.example.post.global.exception.error.ErrorCodes;
 import org.example.post.domain.post.model.PostEntity;
 import org.example.post.domain.post.repository.PostJpaRepository;
 import org.example.post.infrastructure.client.grpc.auth.dto.AuthenticatedUser;
-import org.example.post.infrastructure.mq.kafka.event.post.update.UpdatePostProducer;
+import org.example.post.infrastructure.mq.kafka.application.post.update.UpdatePostProducer;
 import org.example.post.global.authentication.AuthenticatedUserProvider;
 
 @UseCase

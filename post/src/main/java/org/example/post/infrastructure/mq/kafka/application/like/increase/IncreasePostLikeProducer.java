@@ -1,4 +1,4 @@
-package org.example.post.infrastructure.mq.kafka.event.like.increase;
+package org.example.post.infrastructure.mq.kafka.application.like.increase;
 
 import brother.hood.sharedlibrary.kafka.KafkaEvent;
 import lombok.RequiredArgsConstructor;
